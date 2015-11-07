@@ -8,9 +8,11 @@ import (
 )
 
 var file string
+var output string
 
 func init() {
-	flag.StringVar(&file, "file", "example.xml", "-file=example.xml")
+	flag.StringVar(&file, "f", "example.xml", "-f=example.xml")
+	flag.StringVar(&output, "o", "example.go", "-o=example.go")
 }
 
 func main() {
@@ -22,5 +24,6 @@ func main() {
 		return
 	}
 	x2go := x2go.New(b)
-	fmt.Println(x2go.String())
+
+	ioutil.WriteFile(output, []byte(x2go.String()), 0666)
 }
