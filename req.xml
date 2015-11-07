@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+<soapenv:Body>
+    <tem:Authen>
+        <tem:Username>?</tem:Username>
+        <tem:Password>?</tem:Password>
+        <tem:DomainName>?</tem:DomainName>
+        <tem:ClientIP>?</tem:ClientIP>
+    </tem:Authen>
+</soapenv:Body>
+</soapenv:Envelope>
