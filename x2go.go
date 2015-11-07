@@ -26,6 +26,7 @@ func (x *X2Go) String() string {
 	childs := []node{}
 	attrs := map[string]string{}
 	start := map[string][]xml.Attr{}
+	structs := []string{}
 
 	_struct := ""
 
@@ -43,7 +44,7 @@ func (x *X2Go) String() string {
 			if xmlNames[len(xmlNames)-1] == t.Name {
 				childs = append(childs, node{name: t.Name, _type: "string"})
 			} else {
-				_struct += "type " + strings.ToLower(t.Name.Local) + " struct {\n"
+				_struct += "type " + t.Name.Local + " struct {\n"
 				_struct += "\tXMLName xml.Name `xml:" + `"` + attrs[t.Name.Space] + ":" + t.Name.Local + `"` + "`\n"
 				for _, v := range start[t.Name.Local] {
 					_struct += "\t" + strings.ToUpper(string(v.Name.Local[0])) + string(v.Name.Local[1:]) + " string" + " `xml:" + `"` + v.Name.Space + ":" + v.Name.Local + `,attr"` + "`\n"
@@ -54,9 +55,17 @@ func (x *X2Go) String() string {
 				}
 
 				_struct += "}\n\n"
+
+				structs = append(structs, _struct)
+				_struct = ""
+
 				childs = []node{node{name: t.Name, _type: t.Name.Local}}
 			}
 		}
+	}
+
+	for i := len(structs) - 1; i >= 0; i-- {
+		_struct += structs[i]
 	}
 
 	return _struct
