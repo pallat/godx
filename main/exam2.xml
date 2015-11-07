@@ -1,0 +1,64 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:arm="http://cbs.huawei.com/ar/wsservice/ccinterface/armsg" xmlns:com="http://cbs.huawei.com/ar/wsservice/common" xmlns:ccin="http://cbs.huawei.com/ar/wsservice/ccinterface">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <arm:DisputeRequestMsg>
+         <arm:RequestHeader>
+            <com:SerialNo>?</com:SerialNo>
+            <!--Optional:-->
+            <com:RequestFrom>?</com:RequestFrom>
+            <com:OperatorId>?</com:OperatorId>
+            <!--Optional:-->
+            <com:DepartmentId>?</com:DepartmentId>
+            <com:Version>?</com:Version>
+            <!--Optional:-->
+            <com:Remark>?</com:Remark>
+            <!--Zero or more repetitions:-->
+            <com:Param>
+               <com:name>?</com:name>
+               <com:value>?</com:value>
+            </com:Param>
+            <!--Optional:-->
+            <com:TenantId>?</com:TenantId>
+            <!--Optional:-->
+            <com:Language>?</com:Language>
+            <!--Optional:-->
+            <com:CommandId>?</com:CommandId>
+            <!--Optional:-->
+            <com:TransactionId>?</com:TransactionId>
+            <!--Optional:-->
+            <com:SequenceId>?</com:SequenceId>
+            <!--Optional:-->
+            <com:RequestType>?</com:RequestType>
+            <!--Optional:-->
+            <com:ThirdPartyID>?</com:ThirdPartyID>
+            <!--Optional:-->
+            <com:SessionEntity>
+               <com:Name>?</com:Name>
+               <com:Password>?</com:Password>
+               <com:RemoteAddress>?</com:RemoteAddress>
+            </com:SessionEntity>
+         </arm:RequestHeader>
+         <arm:DisputeRequest>
+            <!--1 or more repetitions:-->
+            <ccin:DisputeRequestValue>
+               <!--You may enter the following 9 items in any order-->
+               <!--Optional:-->
+               <ccin:AcctId>?</ccin:AcctId>
+               <!--Optional:-->
+               <ccin:AcctCode>?</ccin:AcctCode>
+               <!--Optional:-->
+               <ccin:Msisdn>?</ccin:Msisdn>
+               <!--Optional:-->
+               <ccin:ExpectedDate>?</ccin:ExpectedDate>
+               <ccin:invoiceNo>?</ccin:invoiceNo>
+               <ccin:Disputeamount>?</ccin:Disputeamount>
+               <!--Optional:-->
+               <ccin:DisputeReason>?</ccin:DisputeReason>
+               <ccin:Isconfirm>?</ccin:Isconfirm>
+               <!--Optional:-->
+               <ccin:remark>?</ccin:remark>
+            </ccin:DisputeRequestValue>
+         </arm:DisputeRequest>
+      </arm:DisputeRequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>
