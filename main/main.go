@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"go-x2go"
+	"go/format"
 	"io/ioutil"
+"go-x2go"
 )
 
 var file string
@@ -23,7 +24,13 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	x2go := x2go.New(b)
 
-	ioutil.WriteFile(output, []byte(x2go.String()), 0666)
+	x2go := x2go.New(b)
+	b, err = format.Source([]byte(x2go.String()))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	ioutil.WriteFile(output, b, 0666)
 }
