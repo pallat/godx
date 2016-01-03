@@ -1,0 +1,17 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsd="http://www.example.org/WSDLCustomerPrivilegeService/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <wsd:QueryCustomerPrivilegeRequest>
+         <wsd:HeaderData>
+            <MessageId>66851887589</MessageId>
+            <BusinessEvent>QueryCustomerPrivilege</BusinessEvent>
+            <SentDateTime></SentDateTime>
+            <SourceSystem>OMR</SourceSystem>
+            <ResponseTime></ResponseTime>
+         </wsd:HeaderData>
+         <SubscriberNumber>66815536138</SubscriberNumber>
+         <CustomerNumber></CustomerNumber>
+      </wsd:QueryCustomerPrivilegeRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+

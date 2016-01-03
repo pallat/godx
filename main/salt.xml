@@ -1,0 +1,6 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:pack.INReadCustSubInfoWS">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ReadCustSubInfoWS><urn:inbuf><USER_CODE>OMRLAN2</USER_CODE><CUST_NUMB>12345</CUST_NUMB><SUBR_NUMB>66800000000</SUBR_NUMB></urn:inbuf></ReadCustSubInfoWS>
+    </soapenv:Body>
+</soapenv:Envelope>

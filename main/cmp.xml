@@ -1,0 +1,38 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:soap1="http://soap.api.interact.unicacorp.com" xmlns:xsd="http://api.interact.unicacorp.com/xsd">
+   <soap:Header/>
+   <soap:Body>
+      <soap1:executeBatch>
+         <soap1:sessionID></soap1:sessionID>
+         <soap1:commands>
+            <xsd:audienceID>
+               <xsd:name>MSISDN</xsd:name>
+               <xsd:valueAsString>{{ .subscriber }}</xsd:valueAsString>
+               <xsd:valueDataType>string</xsd:valueDataType>
+            </xsd:audienceID>
+            <xsd:audienceLevel>MSISDN</xsd:audienceLevel>
+            <xsd:debug>false</xsd:debug>
+            <xsd:eventParameters>
+               <xsd:name>COMPANYNAME</xsd:name>
+               <xsd:valueAsString></xsd:valueAsString>
+               <xsd:valueDataType>string</xsd:valueDataType>
+            </xsd:eventParameters>
+            <xsd:eventParameters>
+               <xsd:name>PREFERREDLANGUAGE</xsd:name>
+               <xsd:valueAsString></xsd:valueAsString>
+               <xsd:valueDataType>string</xsd:valueDataType>
+            </xsd:eventParameters>
+            <xsd:eventParameters>
+               <xsd:name>LatestBalance</xsd:name>
+               <xsd:valueAsNumeric></xsd:valueAsNumeric>
+               <xsd:valueDataType>numeric</xsd:valueDataType>
+            </xsd:eventParameters>
+             <xsd:interactiveChannel>CRM</xsd:interactiveChannel>
+            <xsd:methodIdentifier>startSession</xsd:methodIdentifier>
+            <xsd:relyOnExistingSession>false</xsd:relyOnExistingSession>
+         </soap1:commands>
+         <soap1:commands>
+            <xsd:methodIdentifier>endSession</xsd:methodIdentifier>
+         </soap1:commands>
+      </soap1:executeBatch>
+   </soap:Body>
+</soap:Envelope>

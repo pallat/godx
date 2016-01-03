@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"go-x2go"
 	"go/format"
 	"io/ioutil"
-"go-x2go"
 )
 
 var file string

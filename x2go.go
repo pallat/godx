@@ -70,3 +70,60 @@ func (x *X2Go) String() string {
 
 	return _struct
 }
+
+func (x *X2Go) Layer() int {
+	count := 0
+	names := []string{}
+
+	for token, err := x.dec.Token(); err == nil; token, err = x.dec.Token() {
+		switch t := token.(type) {
+		case xml.StartElement:
+			names = append(names, t.Name.Local)
+			if count < len(names) {
+				count = len(names)
+			}
+		case xml.EndElement:
+			if t.Name.Local == names[len(names)-1] {
+				names = names[:len(names)-1]
+			}
+		}
+	}
+
+	return count - 1
+}
+
+func (x *X2Go) Skeleton() interface{} {
+	count := 0
+	names := []string{}
+	mapping := map[string]string{}
+
+	var val = func(s []string) string {
+		if len(s) > 1 {
+			return s[len(s)-2]
+		}
+		return ""
+	}
+
+	for token, err := x.dec.Token(); err == nil; token, err = x.dec.Token() {
+		switch t := token.(type) {
+		case xml.StartElement:
+			names = append(names, t.Name.Local)
+			mapping[names[len(names)-1]] = val(names)
+			if count < len(names) {
+				count = len(names)
+			}
+		case xml.EndElement:
+			if t.Name.Local == names[len(names)-1] {
+				names = names[:len(names)-1]
+			}
+		}
+	}
+
+	bones := map[string][]string{}
+
+	for k, v := range mapping {
+		bones[v] = append(bones[v], k)
+	}
+
+	return bones
+}

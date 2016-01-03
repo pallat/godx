@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:java="java:com.seasiatech.coupon.ws" xmlns:java1="java:com.seasiatech.coupon.ws.model">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <java:request>
+         <java1:RefnId>11111</java1:RefnId>
+         <java1:subscriberNumber>66894978391</java1:subscriberNumber>
+         <!--Optional:-->
+         <java1:customerNumber>600870719</java1:customerNumber>
+      </java:request>
+   </soapenv:Body>
+</soapenv:Envelope>

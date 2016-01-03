@@ -1,0 +1,20 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ins="http://soa.comptel.com/2011/02/instantlink">
+   <soap:Header/>
+   <soap:Body>
+      <ins:DisplayRequest>
+         <ins:RequestHeader>
+            <ins:NeType>HLR</ins:NeType>
+            <ins:ReqUser>bss</ins:ReqUser>
+         </ins:RequestHeader>
+         <ins:RequestParameters>
+           <ins:Parameter name="REQUEST_TRACE" value="EVERYTHING"/>
+                     <ins:Parameter name="OPER_NAME" value="DTN"/>
+                     <ins:Parameter name="IMSI1" value="520051690080393"/>
+                     <ins:Parameter name="MSISDN1" value="66874390969"/>
+                     <ins:Parameter name="SERVICE1" value="DISPLAY_HLR"/>
+                     <ins:Parameter name="SERVICE2" value="DISPLAY_HSS"/>  
+                     <ins:Parameter name="REQ_OBJ" value="2"/>          
+                   </ins:RequestParameters>
+      </ins:DisplayRequest>
+   </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://www.w3.org/2003/05/soap-envelope">
+    <S:Body>
+        <Response xmlns="http://soa.comptel.com/2011/02/instantlink">
+            <ResponseHeader>
+                <RequestId>21927001</RequestId>
+                <Status>9</Status>
+                <OrderNo></OrderNo>
+                <StatusMessage>Subscriber Query was successfull</StatusMessage>
+                <StatusMessageId>999</StatusMessageId>
+                <Priority>5</Priority>
+                <ReqUser>bss</ReqUser>
+                <ReceivedDate>2015-12-22T14:43:18.671+07:00</ReceivedDate>
+                <FinishedDate>2015-12-22T14:43:22.976+07:00</FinishedDate>
+            </ResponseHeader>
+            <ResponseParameters>
+                <Parameter name="SERV1_TS10_BAIC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS60_CFB_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_PASSWORD" value="1800" />
+                <Parameter name="SERV1_C_NUMBER_4" value="66811803" />
+                <Parameter name="SERV1_C_NUMBER_3" value="66811803" />
+                <Parameter name="SERV1_C_NUMBER_2" value="66811803" />
+                <Parameter name="SERV1_TS60_CFNRC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV2_ESM_STNSR" value="66942500176" />
+                <Parameter name="SERV1_BS20_CFNRY_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_BS20_CFU_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS22" value="PROV" />
+                <Parameter name="SERV1_TS21" value="PROV" />
+                <Parameter name="SERV1_TS60_BAIC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_BS20_DCF_STATUS" value="ACTIVE-QS" />
+                <Parameter name="SERV1_APN_NAME_2" value="mms" />
+                <Parameter name="SERV1_APN_NAME_1" value="*" />
+                <Parameter name="SERV1_TS20_BOIEXH_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV2_ESM_ROAMINGRESTRICTION" value="TRUE" />
+                <Parameter name="SERV1_BS20_CFB_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS20_BOIC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS10_BICRO_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS10_SUPP_CODES" value="4140002930012140002B30042H30052A30039A40009240009B4000934000944000" />
+                <Parameter name="SERV1_BS20_BOIC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS10_C_NUMBER_4" value="66811803" />
+                <Parameter name="SERV1_TS10_C_NUMBER_3" value="66811803" />
+                <Parameter name="SERV1_SMESSAGE" value="Task successfully executed." />
+                <Parameter name="SERV1_TS10_C_NUMBER_2" value="66811803" />
+                <Parameter name="SERV1_TS11" value="PROV" />
+                <Parameter name="SERV1_APN_ID_2" value="2" />
+                <Parameter name="SERV2_ESM_ODB" value="NONE" />
+                <Parameter name="SERV1_SGSN_NUMBER" value="UNKNOWN" />
+                <Parameter name="SERV2_ESM_AAAREGISTRATIONSTATE" value="not_registered" />
+                <Parameter name="SERV2_NE_PRODUCT" value="JNDI" />
+                <Parameter name="SERV1_TS60_SUPP_CODES" value="4140002940002140002B40002H30052A40009A40009240009B4000934000944000" />
+                <Parameter name="SERV1_ACCESS_MODE" value="0" />
+                <Parameter name="SERV1_TS60_CFNRY_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS10_BOIEXH_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_VLR_ADDRESS" value="4-66942500200" />
+                <Parameter name="SERV1_PDP_TY_2" value="IPV4" />
+                <Parameter name="SERV1_TS10_BOIC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_PDP_TY_1" value="IPV4" />
+                <Parameter name="SERV1_TS10_CAW_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_HERIC_FLAG" value="Y" />
+                <Parameter name="SERV1_BS20_BOIEXH_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_BS20_SUPP_CODES" value="4140002940002140002B40002H30052A40009A40009240009B4000934000944000" />
+                <Parameter name="SERV1_TS10_CFNRC_STATUS" value="ACTIVE-OP" />
+                <Parameter name="SERV1_TS62" value="PROV" />
+                <Parameter name="SERV1_MSC_AREA_RESTRICTED" value="false" />
+                <Parameter name="SERV2_ESM_AUTOMATICPROVISIONED" value="FALSE" />
+                <Parameter name="SERV1_PASSWORD_BARRED" value="false" />
+                <Parameter name="SERV1_IMSI1" value="520051690080393" />
+                <Parameter name="SERV1_EQOS_ID_2" value="1" />
+                <Parameter name="SERV1_EQOS_ID_1" value="1" />
+                <Parameter name="SERV1_TS60_BOIC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS60_BOIEXH_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS60_CAW_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_BS2G" value="PROV" />
+                <Parameter name="SERV2_NE_VERSION" value="R3_1" />
+                <Parameter name="SERV2_ESM_INDIVIDUALCONTEXTIDLIST" value="2, 3, 24" />
+                <Parameter name="SERV1_MSISDN1" value="66874390969" />
+                <Parameter name="SERV1_BS20_BICRO_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV2_ESM_UESRVCCCAP" value="UNKNOWN" />
+                <Parameter name="SERV2_ESM_IMSI" value="520051690080393" />
+                <Parameter name="SERV2_ESM_INDIVIDUALDEFAULTCONTEXTID" value="3" />
+                <Parameter name="SERV1_TS20_SUPP_CODES" value="9A40009240009B4000934000944000" />
+                <Parameter name="SERV2_ESM_MSISDN" value="66874390969" />
+                <Parameter name="SERV1_TS20_BAOC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_BS20_BAOC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_STATUS" value="7" />
+                <Parameter name="SERV1_BS20_CAW_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS20_BICRO_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS60_BICRO_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_MSISDN_STATE" value="CONNECTED" />
+                <Parameter name="SERV1_TS10_CFNRY_STATUS" value="ACTIVE-OP" />
+                <Parameter name="SERV2_NE_CHANNEL_NO" value="1" />
+                <Parameter name="SERV2_ESM_USERPROFILEID" value="HSS-EsmProfile1" />
+                <Parameter name="SERV1_PDP_ID_2" value="2" />
+                <Parameter name="SERV1_PDP_ID_1" value="1" />
+                <Parameter name="SERV1_PURGEVLR" value="false" />
+                <Parameter name="SERV1_BS20_CFNRC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS20_BAIC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV2_ESM_LOCATIONSTATE" value="UNKNOWN" />
+                <Parameter name="SERV1_TS10_BAOC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS10_CFU_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_BS20_BAIC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_NE_ID" value="HERIC_HRST1" />
+                <Parameter name="SERV2_ESM_INDIVIDUALSUBSCRIBEDCHARGINGCHARS" value="8" />
+                <Parameter name="SERV2_ESM_ACCESSRESTRICTIONS" value="0" />
+                <Parameter name="NE_ID" value="HERIC_HRST1" />
+                <Parameter name="SERV1_TS60_BAOC_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV1_TS10_CFB_STATUS" value="ACTIVE-OP" />
+                <Parameter name="SERV1_TS60_CFU_STATUS" value="NOT ACTIVE" />
+                <Parameter name="SERV2_ESM_ROAMINGALLOWED" value="FALSE" />
+                <Parameter name="SERV1_TS10_CFNRY_TIME" value="30" />
+                <Parameter name="SERV1_PURGESGSN" value="false" />
+                <Parameter name="SERV1_SUPP_CODES" value="9A10019210019310019B10019410014110012110012910012B10012A10011110012K3001421001511001NM10009M3001OF3001P71100C82000S21050472000RT20002I20002J2000RG2000R41011S540009E10012C10012D10012E10012F1001152000041001051001TS2000" />
+                <Parameter name="SERV1_TS60_DCF_STATUS" value="ACTIVE-QS" />
+                <Parameter name="SERV1_TS10_DCF_STATUS" value="ACTIVE-QS" />
+            </ResponseParameters>
+            <RequestParameters>
+                <Parameter name="NOTIFICATION_MSG_LEVEL" value="0" />
+                <Parameter name="IL_REQ_USER" value="bss" />
+                <Parameter name="RESP_QUEUE_ID" value="SYNCSOA" />
+                <Parameter name="IMSI1" value="520051690080393" />
+                <Parameter name="OPER_NAME" value="DTN" />
+                <Parameter name="MSISDN1" value="66874390969" />
+                <Parameter name="SERVICE2" value="DISPLAY_HSS" />
+                <Parameter name="CLIENT_ID" value="bss" />
+                <Parameter name="REQ_OBJ" value="2" />
+                <Parameter name="SERVICE1" value="DISPLAY_HLR" />
+                <Parameter name="ORIGIN" value="1" />
+                <Parameter name="REQUEST_TRACE" value="EVERYTHING" />
+                <Parameter name="REQ_TYPE" value="4" />
+            </RequestParameters>
+        </Response>
+    </S:Body>
+</S:Envelope>
