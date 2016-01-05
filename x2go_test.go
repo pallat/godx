@@ -77,18 +77,18 @@ func TestSkeleton(t *testing.T) {
 	bones := x2go.Skeleton()
 
 	expect := map[string][]string{
-		"":                []string{"Envelope"},
-		"Envelope":        []string{"Header", "Body"},
-		"Body":            []string{"executeBatch"},
-		"executeBatch":    []string{"sessionID", "commands"},
-		"commands":        []string{"audienceID", "audienceLevel", "debug", "eventParameters", "interactiveChannel", "methodIdentifier", "relyOnExistingSession"},
-		"eventParameters": []string{"name", "valueAsString", "valueDataType", "valueAsNumeric"},
+		"":                    []string{"soap:Envelope"},
+		"soap:Envelope":       []string{"soap:Header", "soap:Body", "xmlns:soap,attr", "xmlns:soap1,attr", "xmlns:xsd,attr"},
+		"soap:Body":           []string{"soap1:executeBatch"},
+		"soap1:executeBatch":  []string{"soap1:sessionID", "soap1:commands"},
+		"soap1:commands":      []string{"xsd:audienceID", "xsd:audienceLevel", "xsd:debug", "xsd:eventParameters", "xsd:interactiveChannel", "xsd:methodIdentifier", "xsd:relyOnExistingSession"},
+		"xsd:eventParameters": []string{"xsd:name", "xsd:valueAsString", "xsd:valueDataType", "xsd:valueAsNumeric"},
 	}
 
 	for k, v := range bones.(map[string][]string) {
 		if len(v) != len(expect[k]) {
 			t.Error("Something went wrong.")
-			t.Errorf(">>>%# v", bones)
+			t.Errorf("%# v:%# v\n!=\n%# v:%# v", k, v, k, expect[k])
 		}
 	}
 	// arrange("", bones.(map[string][]string))
@@ -96,55 +96,65 @@ func TestSkeleton(t *testing.T) {
 
 func TestIdentifyType(t *testing.T) {
 	bones := map[string][]string{
-		"":                []string{"Envelope"},
-		"Envelope":        []string{"Header", "Body"},
-		"Body":            []string{"executeBatch"},
-		"executeBatch":    []string{"sessionID", "commands"},
-		"commands":        []string{"audienceID", "audienceLevel", "debug", "eventParameters", "interactiveChannel", "methodIdentifier", "relyOnExistingSession"},
-		"eventParameters": []string{"name", "valueAsString", "valueDataType", "valueAsNumeric"},
+		"":                    []string{"soap:Envelope"},
+		"soap:Envelope":       []string{"soap:Header", "soap:Body", "xmlns:soap,attr", "xmlns:soap1,attr", "xmlns:xsd,attr"},
+		"soap:Body":           []string{"soap1:executeBatch"},
+		"soap1:executeBatch":  []string{"soap1:sessionID", "soap1:commands"},
+		"soap1:commands":      []string{"xsd:audienceID", "xsd:audienceLevel", "xsd:debug", "xsd:eventParameters", "xsd:interactiveChannel", "xsd:methodIdentifier", "xsd:relyOnExistingSession"},
+		"xsd:eventParameters": []string{"xsd:name", "xsd:valueAsString", "xsd:valueDataType", "xsd:valueAsNumeric"},
 	}
 
 	id := Identify(bones)
 
 	expect := map[string]map[string]string{
-		"":                map[string]string{"Envelope": "Envelope"},
-		"Envelope":        map[string]string{"Header": "Header", "Body": "Body"},
-		"Body":            map[string]string{"executeBatch": "ExecuteBatch"},
-		"executeBatch":    map[string]string{"sessionID": "string", "commands": "Commands"},
-		"commands":        map[string]string{"audienceID": "string", "audienceLevel": "string", "debug": "string", "eventParameters": "EventParameters", "interactiveChannel": "string", "methodIdentifier": "string", "relyOnExistingSession": "string"},
-		"eventParameters": map[string]string{"name": "string", "valueAsString": "string", "valueDataType": "string", "valueAsNumeric": "string"},
+		"":                map[string]string{"soap:Envelope": "Envelope"},
+		"Envelope":        map[string]string{"soap:Header": "Header", "soap:Body": "Body", "xmlns:soap,attr": "string", "xmlns:soap1,attr": "string", "xmlns:xsd,attr": "string"},
+		"Body":            map[string]string{"soap1:executeBatch": "ExecuteBatch"},
+		"executeBatch":    map[string]string{"soap1:sessionID": "string", "soap1:commands": "Commands"},
+		"commands":        map[string]string{"xsd:audienceID": "string", "xsd:audienceLevel": "string", "xsd:debug": "string", "xsd:eventParameters": "EventParameters", "xsd:interactiveChannel": "string", "xsd:methodIdentifier": "string", "xsd:relyOnExistingSession": "string"},
+		"eventParameters": map[string]string{"xsd:name": "string", "xsd:valueAsString": "string", "xsd:valueDataType": "string", "xsd:valueAsNumeric": "string"},
 	}
 
 	for k, v := range expect {
 		if len(v) != len(id[k]) {
 			t.Error("It might be wrong.")
+			t.Errorf("%# v:%# v\n!=\n%# v:%# v", k, v, k, id[k])
 		}
 	}
 }
 
 func TestPrint(t *testing.T) {
 	id := map[string]map[string]string{
-		"":                map[string]string{"Envelope": "Envelope"},
-		"Envelope":        map[string]string{"Header": "Header", "Body": "Body"},
-		"Body":            map[string]string{"executeBatch": "ExecuteBatch"},
-		"executeBatch":    map[string]string{"sessionID": "string", "commands": "Commands"},
-		"commands":        map[string]string{"audienceID": "string", "audienceLevel": "string", "debug": "string", "eventParameters": "EventParameters", "interactiveChannel": "string", "methodIdentifier": "string", "relyOnExistingSession": "string"},
-		"eventParameters": map[string]string{"name": "string", "valueAsString": "string", "valueDataType": "string", "valueAsNumeric": "string"},
+		"":                map[string]string{"soap:Envelope": "Envelope"},
+		"Envelope":        map[string]string{"soap:Header": "Header", "soap:Body": "Body", "xmlns:soap,attr": "string", "xmlns:soap1,attr": "string", "xmlns:xsd,attr": "string"},
+		"Body":            map[string]string{"soap1:executeBatch": "ExecuteBatch"},
+		"executeBatch":    map[string]string{"soap1:sessionID": "string", "soap1:commands": "Commands"},
+		"commands":        map[string]string{"xsd:audienceID": "string", "xsd:audienceLevel": "string", "xsd:debug": "string", "xsd:eventParameters": "EventParameters", "xsd:interactiveChannel": "string", "xsd:methodIdentifier": "string", "xsd:relyOnExistingSession": "string"},
+		"eventParameters": map[string]string{"xsd:name": "string", "xsd:valueAsString": "string", "xsd:valueDataType": "string", "xsd:valueAsNumeric": "string"},
 	}
 
 	echo(id)
 }
 
 func echo(id map[string]map[string]string) {
+	var names []string
 	for k, v := range id {
 		if k == "" {
 			continue
 		}
 
-		fmt.Println("type", k, "struct")
+		fmt.Println("type", strings.Title(k), "struct {")
 		for name, typ := range v {
-			fmt.Println(" ", strings.Title(name), typ, "`xml:"+`"`+name+`"`+"`")
+			if strings.Contains(name, ",") {
+				names = strings.Split(name, ",")
+				// names = append(names, names[0])
+				names = strings.Split(names[0], ":")
+			} else if strings.Contains(name, ":") {
+				names = strings.Split(name, ":")
+			}
+			fmt.Println(" ", strings.Title(names[len(names)-1]), typ, "`xml:"+`"`+name+`"`+"`")
 		}
+		fmt.Println("}")
 	}
 }
 

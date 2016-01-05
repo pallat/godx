@@ -3,16 +3,19 @@ package x2go
 import (
 	"bytes"
 	"encoding/xml"
+	"fmt"
 	"strings"
 )
 
 type X2Go struct {
 	dec *xml.Decoder
+	pre *xml.Decoder
 }
 
 func New(b []byte) *X2Go {
 	return &X2Go{
 		dec: xml.NewDecoder(bytes.NewReader(b)),
+		pre: xml.NewDecoder(bytes.NewReader(b)),
 	}
 }
 
@@ -92,13 +95,29 @@ func (x *X2Go) Layer() int {
 	return count - 1
 }
 
-var ns map[string]string
+func (x *X2Go) namespace() (map[string]string, map[string][]string) {
+	ns := map[string]string{}
+	attrs := map[string][]string{}
+
+	for token, err := x.pre.Token(); err == nil; token, err = x.pre.Token() {
+		switch t := token.(type) {
+		case xml.StartElement:
+			if len(t.Attr) != 0 {
+				for _, v := range t.Attr {
+					ns[v.Value] = v.Name.Local
+					attrs[t.Name.Local] = append(attrs[t.Name.Local], v.Name.Space+":"+v.Name.Local+",attr")
+				}
+			}
+		}
+	}
+
+	return ns, attrs
+}
 
 func (x *X2Go) Skeleton() interface{} {
 	names := []string{}
 	mapping := map[string]string{}
-	attrs := map[string][]string{}
-	ns = map[string]string{}
+	ns, attrs := x.namespace()
 
 	var val = func(s []string) string {
 		if len(s) > 1 {
@@ -110,19 +129,27 @@ func (x *X2Go) Skeleton() interface{} {
 	for token, err := x.dec.Token(); err == nil; token, err = x.dec.Token() {
 		switch t := token.(type) {
 		case xml.StartElement:
-			names = append(names, t.Name.Local)
-			mapping[names[len(names)-1]] = val(names)
+			name := t.Name.Local
 
-			if len(t.Attr) != 0 {
-				for _, v := range t.Attr {
-					ns[v.Value] = v.Name.Local
-					attrs[t.Name.Local] = append(attrs[t.Name.Local], v.Name.Local)
+			if t.Name.Space != "" {
+				if ns[t.Name.Space] != "" {
+					name = ns[t.Name.Space] + ":" + name
 				}
-				// start[t.Name.Local] = t.Attr
 			}
 
+			if attrs[t.Name.Local] != nil {
+				attrs[name] = attrs[t.Name.Local]
+			}
+
+			names = append(names, name)
+			mapping[names[len(names)-1]] = val(names)
+
 		case xml.EndElement:
-			if t.Name.Local == names[len(names)-1] {
+			name := t.Name.Local
+			if t.Name.Space != "" {
+				name = ns[t.Name.Space] + ":" + name
+			}
+			if name == names[len(names)-1] {
 				names = names[:len(names)-1]
 			}
 		}
@@ -134,10 +161,10 @@ func (x *X2Go) Skeleton() interface{} {
 		bones[v] = append(bones[v], k)
 	}
 
-	// for k, v := range bones {
-	// 	bones[k] = append(v, attrs[k]...)
-	// }
-
+	fmt.Println(attrs)
+	for k, v := range bones {
+		bones[k] = append(v, attrs[k]...)
+	}
 	return bones
 }
 
@@ -152,7 +179,8 @@ func Identify(bone map[string][]string) map[string]map[string]string {
 				child[v[i]] = strings.Title(v[i])
 			}
 		}
-		id[k] = child
+		ids := strings.Split(k, ":")
+		id[ids[len(ids)-1]] = child
 	}
 
 	return id
