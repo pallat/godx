@@ -1,67 +1,40 @@
+type Commands struct {
+    Debug string `xml:"xsd:debug"`
+    AudienceID Xsd:AudienceID `xml:"xsd:audienceID"`
+    EventParameters Xsd:EventParameters `xml:"xsd:eventParameters"`
+    RelyOnExistingSession string `xml:"xsd:relyOnExistingSession"`
+    AudienceLevel string `xml:"xsd:audienceLevel"`
+    InteractiveChannel string `xml:"xsd:interactiveChannel"`
+    MethodIdentifier string `xml:"xsd:methodIdentifier"`
+}
+
+type EventParameters struct {
+    Name string `xml:"xsd:name"`
+    ValueAsString string `xml:"xsd:valueAsString"`
+    ValueDataType string `xml:"xsd:valueDataType"`
+    ValueAsNumeric string `xml:"xsd:valueAsNumeric"`
+}
+
+type ExecuteBatch struct {
+    Commands Soap1:Commands `xml:"soap1:commands"`
+    SessionID string `xml:"soap1:sessionID"`
+}
+
 type Envelope struct {
-	XMLName xml.Name `xml:"soap:Envelope"`
-	Soap    string   `xml:"xmlns:soap,attr"`
-	Soap1   string   `xml:"xmlns:soap1,attr"`
-	Xsd     string   `xml:"xmlns:xsd,attr"`
-	Body    Body     `xml:"soap:Body"`
+    Header string `xml:"soap:Header"`
+    Body Soap:Body `xml:"soap:Body"`
+    Soap string `xml:"xmlns:soap,attr"`
+    Soap1 string `xml:"xmlns:soap1,attr"`
+    Xsd string `xml:"xmlns:xsd,attr"`
+}
+
+type AudienceID struct {
+    ValueDataType string `xml:"xsd:valueDataType"`
+    Name string `xml:"xsd:name"`
+    ValueAsString string `xml:"xsd:valueAsString"`
 }
 
 type Body struct {
-	XMLName      xml.Name     `xml:"soap:Body"`
-	executeBatch executeBatch `xml:"soap1:executeBatch"`
-}
-
-type executeBatch struct {
-	XMLName  xml.Name `xml:"soap1:executeBatch"`
-	commands commands `xml:"soap1:commands"`
-}
-
-type commands struct {
-	XMLName          xml.Name `xml:"soap1:commands"`
-	commands         commands `xml:"soap1:commands"`
-	methodIdentifier string   `xml:"xsd:methodIdentifier"`
-}
-
-type commands struct {
-	XMLName               xml.Name        `xml:"soap1:commands"`
-	eventParameters       eventParameters `xml:"xsd:eventParameters"`
-	interactiveChannel    string          `xml:"xsd:interactiveChannel"`
-	methodIdentifier      string          `xml:"xsd:methodIdentifier"`
-	relyOnExistingSession string          `xml:"xsd:relyOnExistingSession"`
-}
-
-type eventParameters struct {
-	XMLName         xml.Name        `xml:"xsd:eventParameters"`
-	eventParameters eventParameters `xml:"xsd:eventParameters"`
-	name            string          `xml:"xsd:name"`
-	valueAsNumeric  string          `xml:"xsd:valueAsNumeric"`
-	valueDataType   string          `xml:"xsd:valueDataType"`
-}
-
-type eventParameters struct {
-	XMLName         xml.Name        `xml:"xsd:eventParameters"`
-	eventParameters eventParameters `xml:"xsd:eventParameters"`
-	name            string          `xml:"xsd:name"`
-	valueAsString   string          `xml:"xsd:valueAsString"`
-	valueDataType   string          `xml:"xsd:valueDataType"`
-}
-
-type eventParameters struct {
-	XMLName       xml.Name   `xml:"xsd:eventParameters"`
-	audienceID    audienceID `xml:"xsd:audienceID"`
-	audienceLevel string     `xml:"xsd:audienceLevel"`
-	debug         string     `xml:"xsd:debug"`
-	name          string     `xml:"xsd:name"`
-	valueAsString string     `xml:"xsd:valueAsString"`
-	valueDataType string     `xml:"xsd:valueDataType"`
-}
-
-type audienceID struct {
-	XMLName       xml.Name `xml:"xsd:audienceID"`
-	Header        string   `xml:"soap:Header"`
-	sessionID     string   `xml:"soap1:sessionID"`
-	name          string   `xml:"xsd:name"`
-	valueAsString string   `xml:"xsd:valueAsString"`
-	valueDataType string   `xml:"xsd:valueDataType"`
+    ExecuteBatch Soap1:ExecuteBatch `xml:"soap1:executeBatch"`
 }
 

@@ -25,53 +25,36 @@ type node struct {
 }
 
 func (x *X2Go) String() string {
-	xmlNames := []xml.Name{}
-	childs := []node{}
-	attrs := map[string]string{}
-	start := map[string][]xml.Attr{}
-	structs := []string{}
+	bones := x.Skeleton()
+	id := Identify(bones)
+	return echo(id)
+}
 
-	_struct := ""
-
-	for token, err := x.dec.Token(); err == nil; token, err = x.dec.Token() {
-		switch t := token.(type) {
-		case xml.StartElement:
-			xmlNames = append(xmlNames, t.Name)
-			if len(t.Attr) != 0 {
-				for _, v := range t.Attr {
-					attrs[v.Value] = v.Name.Local
-				}
-				start[t.Name.Local] = t.Attr
-			}
-		case xml.EndElement:
-			if xmlNames[len(xmlNames)-1] == t.Name {
-				childs = append(childs, node{name: t.Name, _type: "string"})
-			} else {
-				_struct += "type " + t.Name.Local + " struct {\n"
-				_struct += "\tXMLName xml.Name `xml:" + `"` + attrs[t.Name.Space] + ":" + t.Name.Local + `"` + "`\n"
-				for _, v := range start[t.Name.Local] {
-					_struct += "\t" + strings.ToUpper(string(v.Name.Local[0])) + string(v.Name.Local[1:]) + " string" + " `xml:" + `"` + v.Name.Space + ":" + v.Name.Local + `,attr"` + "`\n"
-				}
-
-				for _, v := range childs {
-					_struct += "\t" + v.name.Local + " " + v._type + " `xml:" + `"` + attrs[v.name.Space] + ":" + v.name.Local + `"` + "`\n"
-				}
-
-				_struct += "}\n\n"
-
-				structs = append(structs, _struct)
-				_struct = ""
-
-				childs = []node{node{name: t.Name, _type: t.Name.Local}}
-			}
+func echo(id map[string]map[string]string) string {
+	s := ""
+	var names []string
+	for k, v := range id {
+		if k == "" {
+			continue
 		}
+
+		fmt.Println("type", strings.Title(k), "struct {")
+		s += "type " + strings.Title(k) + " struct {\n"
+		for name, typ := range v {
+			if strings.Contains(name, ",") {
+				names = strings.Split(name, ",")
+				names = strings.Split(names[0], ":")
+			} else if strings.Contains(name, ":") {
+				names = strings.Split(name, ":")
+			}
+			s += "    " + strings.Title(names[len(names)-1]) + " " + typ + " `xml:" + `"` + name + `"` + "`\n"
+			fmt.Println(" ", strings.Title(names[len(names)-1]), typ, "`xml:"+`"`+name+`"`+"`")
+		}
+		s += "}\n\n"
+		fmt.Println("}")
 	}
 
-	for i := len(structs) - 1; i >= 0; i-- {
-		_struct += structs[i]
-	}
-
-	return _struct
+	return s
 }
 
 func (x *X2Go) Layer() int {
@@ -114,7 +97,7 @@ func (x *X2Go) namespace() (map[string]string, map[string][]string) {
 	return ns, attrs
 }
 
-func (x *X2Go) Skeleton() interface{} {
+func (x *X2Go) Skeleton() map[string][]string {
 	bones := map[string][]string{}
 	names := []string{}
 	mapping := map[string]string{}
@@ -142,13 +125,6 @@ func (x *X2Go) Skeleton() interface{} {
 				attrs[name] = attrs[t.Name.Local]
 			}
 
-			for i := range names {
-				if names[i] == "xsd:audienceID" {
-					fmt.Println(">", name)
-					fmt.Println("<", mapping)
-				}
-			}
-
 			names = append(names, name)
 
 			key := names[len(names)-1]
@@ -174,7 +150,6 @@ func (x *X2Go) Skeleton() interface{} {
 		bones[v] = append(bones[v], k)
 	}
 
-	fmt.Println(attrs)
 	for k, v := range bones {
 		bones[k] = append(v, attrs[k]...)
 	}

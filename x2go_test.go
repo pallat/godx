@@ -3,52 +3,8 @@ package x2go
 import (
 	"fmt"
 	"io/ioutil"
-	"strings"
 	"testing"
 )
-
-func TestPrintStruct(t *testing.T) {
-	x2go := New([]byte(xexam1))
-	s := x2go.String()
-
-	if s != xstruct1 {
-		t.Error("expect\n", xstruct1, "but got\n", s)
-	}
-}
-
-var xexam1 = `<?xml version="1.0"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
-<soapenv:Body>
-    <tem:Authen>
-        <tem:Username>?</tem:Username>
-        <tem:Password>?</tem:Password>
-        <tem:DomainName>?</tem:DomainName>
-        <tem:ClientIP>?</tem:ClientIP>
-    </tem:Authen>
-</soapenv:Body>
-</soapenv:Envelope>`
-
-var xstruct1 = `type Envelope struct {
-	XMLName xml.Name ` + "`" + `xml:"soapenv:Envelope"` + "`" + `
-	Soapenv string ` + "`" + `xml:"xmlns:soapenv,attr"` + "`" + `
-	Tem string ` + "`" + `xml:"xmlns:tem,attr"` + "`" + `
-	Body Body ` + "`" + `xml:"soapenv:Body"` + "`" + `
-}
-
-type Body struct {
-	XMLName xml.Name ` + "`" + `xml:"soapenv:Body"` + "`" + `
-	Authen Authen ` + "`" + `xml:"tem:Authen"` + "`" + `
-}
-
-type Authen struct {
-	XMLName xml.Name ` + "`" + `xml:"tem:Authen"` + "`" + `
-	Username string ` + "`" + `xml:"tem:Username"` + "`" + `
-	Password string ` + "`" + `xml:"tem:Password"` + "`" + `
-	DomainName string ` + "`" + `xml:"tem:DomainName"` + "`" + `
-	ClientIP string ` + "`" + `xml:"tem:ClientIP"` + "`" + `
-}
-
-`
 
 func TestLayer(t *testing.T) {
 	b, err := ioutil.ReadFile("./main/cmp.xml")
@@ -86,7 +42,7 @@ func TestSkeleton(t *testing.T) {
 		"xsd:audienceID":      []string{"xsd:name", "xsd:valueAsString", "xsd:valueDataType"},
 	}
 
-	for k, v := range bones.(map[string][]string) {
+	for k, v := range bones {
 		if len(v) != len(expect[k]) {
 			t.Error("Something went wrong.")
 			t.Errorf("%# v:%# v\n!=\n%# v:%# v", k, v, k, expect[k])
@@ -126,7 +82,7 @@ func TestIdentifyType(t *testing.T) {
 	}
 }
 
-func TestPrint(t *testing.T) {
+func xTestPrint(t *testing.T) {
 	id := map[string]map[string]string{
 		"":                map[string]string{"soap:Envelope": "Envelope"},
 		"Envelope":        map[string]string{"soap:Header": "Header", "soap:Body": "Body", "xmlns:soap,attr": "string", "xmlns:soap1,attr": "string", "xmlns:xsd,attr": "string"},
@@ -140,25 +96,18 @@ func TestPrint(t *testing.T) {
 	echo(id)
 }
 
-func echo(id map[string]map[string]string) {
-	var names []string
-	for k, v := range id {
-		if k == "" {
-			continue
-		}
-
-		fmt.Println("type", strings.Title(k), "struct {")
-		for name, typ := range v {
-			if strings.Contains(name, ",") {
-				names = strings.Split(name, ",")
-				names = strings.Split(names[0], ":")
-			} else if strings.Contains(name, ":") {
-				names = strings.Split(name, ":")
-			}
-			fmt.Println(" ", strings.Title(names[len(names)-1]), typ, "`xml:"+`"`+name+`"`+"`")
-		}
-		fmt.Println("}")
+func TestReal(t *testing.T) {
+	b, err := ioutil.ReadFile("./main/cmp.xml")
+	if err != nil {
+		t.Error("File cmp.xml not found.")
+		return
 	}
+
+	x2go := New(b)
+
+	bones := x2go.Skeleton()
+	id := Identify(bones)
+	fmt.Println(echo(id))
 }
 
 func arrange(key string, bones map[string][]string) {
