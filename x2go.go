@@ -92,10 +92,13 @@ func (x *X2Go) Layer() int {
 	return count - 1
 }
 
+var ns map[string]string
+
 func (x *X2Go) Skeleton() interface{} {
-	count := 0
 	names := []string{}
 	mapping := map[string]string{}
+	attrs := map[string][]string{}
+	ns = map[string]string{}
 
 	var val = func(s []string) string {
 		if len(s) > 1 {
@@ -109,9 +112,15 @@ func (x *X2Go) Skeleton() interface{} {
 		case xml.StartElement:
 			names = append(names, t.Name.Local)
 			mapping[names[len(names)-1]] = val(names)
-			if count < len(names) {
-				count = len(names)
+
+			if len(t.Attr) != 0 {
+				for _, v := range t.Attr {
+					ns[v.Value] = v.Name.Local
+					attrs[t.Name.Local] = append(attrs[t.Name.Local], v.Name.Local)
+				}
+				// start[t.Name.Local] = t.Attr
 			}
+
 		case xml.EndElement:
 			if t.Name.Local == names[len(names)-1] {
 				names = names[:len(names)-1]
@@ -125,5 +134,26 @@ func (x *X2Go) Skeleton() interface{} {
 		bones[v] = append(bones[v], k)
 	}
 
+	// for k, v := range bones {
+	// 	bones[k] = append(v, attrs[k]...)
+	// }
+
 	return bones
+}
+
+func Identify(bone map[string][]string) map[string]map[string]string {
+	id := map[string]map[string]string{}
+	for k, v := range bone {
+		child := map[string]string{}
+		for i := range v {
+			if bone[v[i]] == nil {
+				child[v[i]] = "string"
+			} else {
+				child[v[i]] = strings.Title(v[i])
+			}
+		}
+		id[k] = child
+	}
+
+	return id
 }

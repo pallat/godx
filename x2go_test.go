@@ -3,6 +3,7 @@ package x2go
 import (
 	"fmt"
 	"io/ioutil"
+	"strings"
 	"testing"
 )
 
@@ -87,49 +88,65 @@ func TestSkeleton(t *testing.T) {
 	for k, v := range bones.(map[string][]string) {
 		if len(v) != len(expect[k]) {
 			t.Error("Something went wrong.")
+			t.Errorf(">>>%# v", bones)
 		}
 	}
 	// arrange("", bones.(map[string][]string))
 }
 
-// func TestIdentifyType(t *testing.T) {
-// 	bones := map[string][]string{
-// 		"":                []string{"Envelope"},
-// 		"Envelope":        []string{"Header", "Body"},
-// 		"Body":            []string{"executeBatch"},
-// 		"executeBatch":    []string{"sessionID", "commands"},
-// 		"commands":        []string{"audienceID", "audienceLevel", "debug", "eventParameters", "interactiveChannel", "methodIdentifier", "relyOnExistingSession"},
-// 		"eventParameters": []string{"name", "valueAsString", "valueDataType", "valueAsNumeric"},
-// 	}
-//
-// 	id := Identify(bones)
-//
-// 	expect := []Type{
-// 		Type{Name: "Envelope", Type: "Envelope"},
-// 		Type{Name: "Body", Type: "Body"},
-// 		Type{Name: "Header", Type: "Header"},
-// 		Type{Name: "ExecuteBatch", Type: "ExecuteBatch"},
-// 		Type{Name: "SessionID", Type: "string"},
-// 		Type{Name: "Commands", Type: "Commands"},
-// 		Type{Name: "AudienceID", Type: "string"},
-// 		Type{Name: "AudienceLevel", Type: "string"},
-// 		Type{Name: "Debug", Type: "string"},
-// 		Type{Name: "InteractiveChannel", Type: "string"},
-// 		Type{Name: "MethodIdentifier", Type: "string"},
-// 		Type{Name: "RelyOnExistingSession", Type: "string"},
-// 		Type{Name: "EventParameters", Type: "EventParameters"},
-// 		Type{Name: "Name", Type: "string"},
-// 		Type{Name: "ValueAsString", Type: "string"},
-// 		Type{Name: "ValueDataType", Type: "string"},
-// 		Type{Name: "ValueAsNumeric", Type: "string"},
-// 	}
-// }
-//
-// type Type struct {
-// 	Name  string
-// 	Type  string
-// 	Child []string
-// }
+func TestIdentifyType(t *testing.T) {
+	bones := map[string][]string{
+		"":                []string{"Envelope"},
+		"Envelope":        []string{"Header", "Body"},
+		"Body":            []string{"executeBatch"},
+		"executeBatch":    []string{"sessionID", "commands"},
+		"commands":        []string{"audienceID", "audienceLevel", "debug", "eventParameters", "interactiveChannel", "methodIdentifier", "relyOnExistingSession"},
+		"eventParameters": []string{"name", "valueAsString", "valueDataType", "valueAsNumeric"},
+	}
+
+	id := Identify(bones)
+
+	expect := map[string]map[string]string{
+		"":                map[string]string{"Envelope": "Envelope"},
+		"Envelope":        map[string]string{"Header": "Header", "Body": "Body"},
+		"Body":            map[string]string{"executeBatch": "ExecuteBatch"},
+		"executeBatch":    map[string]string{"sessionID": "string", "commands": "Commands"},
+		"commands":        map[string]string{"audienceID": "string", "audienceLevel": "string", "debug": "string", "eventParameters": "EventParameters", "interactiveChannel": "string", "methodIdentifier": "string", "relyOnExistingSession": "string"},
+		"eventParameters": map[string]string{"name": "string", "valueAsString": "string", "valueDataType": "string", "valueAsNumeric": "string"},
+	}
+
+	for k, v := range expect {
+		if len(v) != len(id[k]) {
+			t.Error("It might be wrong.")
+		}
+	}
+}
+
+func TestPrint(t *testing.T) {
+	id := map[string]map[string]string{
+		"":                map[string]string{"Envelope": "Envelope"},
+		"Envelope":        map[string]string{"Header": "Header", "Body": "Body"},
+		"Body":            map[string]string{"executeBatch": "ExecuteBatch"},
+		"executeBatch":    map[string]string{"sessionID": "string", "commands": "Commands"},
+		"commands":        map[string]string{"audienceID": "string", "audienceLevel": "string", "debug": "string", "eventParameters": "EventParameters", "interactiveChannel": "string", "methodIdentifier": "string", "relyOnExistingSession": "string"},
+		"eventParameters": map[string]string{"name": "string", "valueAsString": "string", "valueDataType": "string", "valueAsNumeric": "string"},
+	}
+
+	echo(id)
+}
+
+func echo(id map[string]map[string]string) {
+	for k, v := range id {
+		if k == "" {
+			continue
+		}
+
+		fmt.Println("type", k, "struct")
+		for name, typ := range v {
+			fmt.Println(" ", strings.Title(name), typ, "`xml:"+`"`+name+`"`+"`")
+		}
+	}
+}
 
 func arrange(key string, bones map[string][]string) {
 	for i := range bones[key] {
