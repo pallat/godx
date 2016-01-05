@@ -115,6 +115,7 @@ func (x *X2Go) namespace() (map[string]string, map[string][]string) {
 }
 
 func (x *X2Go) Skeleton() interface{} {
+	bones := map[string][]string{}
 	names := []string{}
 	mapping := map[string]string{}
 	ns, attrs := x.namespace()
@@ -141,7 +142,21 @@ func (x *X2Go) Skeleton() interface{} {
 				attrs[name] = attrs[t.Name.Local]
 			}
 
+			for i := range names {
+				if names[i] == "xsd:audienceID" {
+					fmt.Println(">", name)
+					fmt.Println("<", mapping)
+				}
+			}
+
 			names = append(names, name)
+
+			key := names[len(names)-1]
+			value := val(names)
+
+			if mapping[key] != "" && mapping[key] != value {
+				bones[mapping[key]] = append(bones[mapping[key]], key)
+			}
 			mapping[names[len(names)-1]] = val(names)
 
 		case xml.EndElement:
@@ -154,8 +169,6 @@ func (x *X2Go) Skeleton() interface{} {
 			}
 		}
 	}
-
-	bones := map[string][]string{}
 
 	for k, v := range mapping {
 		bones[v] = append(bones[v], k)

@@ -83,6 +83,7 @@ func TestSkeleton(t *testing.T) {
 		"soap1:executeBatch":  []string{"soap1:sessionID", "soap1:commands"},
 		"soap1:commands":      []string{"xsd:audienceID", "xsd:audienceLevel", "xsd:debug", "xsd:eventParameters", "xsd:interactiveChannel", "xsd:methodIdentifier", "xsd:relyOnExistingSession"},
 		"xsd:eventParameters": []string{"xsd:name", "xsd:valueAsString", "xsd:valueDataType", "xsd:valueAsNumeric"},
+		"xsd:audienceID":      []string{"xsd:name", "xsd:valueAsString", "xsd:valueDataType"},
 	}
 
 	for k, v := range bones.(map[string][]string) {
@@ -102,6 +103,7 @@ func TestIdentifyType(t *testing.T) {
 		"soap1:executeBatch":  []string{"soap1:sessionID", "soap1:commands"},
 		"soap1:commands":      []string{"xsd:audienceID", "xsd:audienceLevel", "xsd:debug", "xsd:eventParameters", "xsd:interactiveChannel", "xsd:methodIdentifier", "xsd:relyOnExistingSession"},
 		"xsd:eventParameters": []string{"xsd:name", "xsd:valueAsString", "xsd:valueDataType", "xsd:valueAsNumeric"},
+		"xsd:audienceID":      []string{"xsd:name", "xsd:valueAsString", "xsd:valueDataType"},
 	}
 
 	id := Identify(bones)
@@ -113,6 +115,7 @@ func TestIdentifyType(t *testing.T) {
 		"executeBatch":    map[string]string{"soap1:sessionID": "string", "soap1:commands": "Commands"},
 		"commands":        map[string]string{"xsd:audienceID": "string", "xsd:audienceLevel": "string", "xsd:debug": "string", "xsd:eventParameters": "EventParameters", "xsd:interactiveChannel": "string", "xsd:methodIdentifier": "string", "xsd:relyOnExistingSession": "string"},
 		"eventParameters": map[string]string{"xsd:name": "string", "xsd:valueAsString": "string", "xsd:valueDataType": "string", "xsd:valueAsNumeric": "string"},
+		"audienceID":      map[string]string{"xsd:name": "string", "xsd:valueAsString": "string", "xsd:valueDataType": "string"},
 	}
 
 	for k, v := range expect {
@@ -131,6 +134,7 @@ func TestPrint(t *testing.T) {
 		"executeBatch":    map[string]string{"soap1:sessionID": "string", "soap1:commands": "Commands"},
 		"commands":        map[string]string{"xsd:audienceID": "string", "xsd:audienceLevel": "string", "xsd:debug": "string", "xsd:eventParameters": "EventParameters", "xsd:interactiveChannel": "string", "xsd:methodIdentifier": "string", "xsd:relyOnExistingSession": "string"},
 		"eventParameters": map[string]string{"xsd:name": "string", "xsd:valueAsString": "string", "xsd:valueDataType": "string", "xsd:valueAsNumeric": "string"},
+		"audienceID":      map[string]string{"xsd:name": "string", "xsd:valueAsString": "string", "xsd:valueDataType": "string"},
 	}
 
 	echo(id)
@@ -147,7 +151,6 @@ func echo(id map[string]map[string]string) {
 		for name, typ := range v {
 			if strings.Contains(name, ",") {
 				names = strings.Split(name, ",")
-				// names = append(names, names[0])
 				names = strings.Split(names[0], ":")
 			} else if strings.Contains(name, ":") {
 				names = strings.Split(name, ":")
