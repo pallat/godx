@@ -6,21 +6,6 @@ import (
 	"testing"
 )
 
-func TestLayer(t *testing.T) {
-	b, err := ioutil.ReadFile("./main/cmp.xml")
-	if err != nil {
-		t.Error("File cmp.xml not found.")
-		return
-	}
-
-	x2go := New(b)
-
-	l := x2go.Layer()
-	if l != 5 {
-		t.Error("It should return 5 but was ", l)
-	}
-}
-
 func TestSkeleton(t *testing.T) {
 	b, err := ioutil.ReadFile("./main/cmp.xml")
 	if err != nil {

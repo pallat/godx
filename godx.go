@@ -57,27 +57,6 @@ func echo(id map[string]map[string]string) string {
 	return s
 }
 
-func (x *X2Go) Layer() int {
-	count := 0
-	names := []string{}
-
-	for token, err := x.dec.Token(); err == nil; token, err = x.dec.Token() {
-		switch t := token.(type) {
-		case xml.StartElement:
-			names = append(names, t.Name.Local)
-			if count < len(names) {
-				count = len(names)
-			}
-		case xml.EndElement:
-			if t.Name.Local == names[len(names)-1] {
-				names = names[:len(names)-1]
-			}
-		}
-	}
-
-	return count - 1
-}
-
 func (x *X2Go) namespace() (map[string]string, map[string][]string) {
 	ns := map[string]string{}
 	attrs := map[string][]string{}
