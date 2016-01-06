@@ -1,4 +1,4 @@
-package x2go
+package godx
 
 import (
 	"bytes"
@@ -8,14 +8,16 @@ import (
 )
 
 type X2Go struct {
-	dec *xml.Decoder
-	pre *xml.Decoder
+	dec  *xml.Decoder
+	ns   *xml.Decoder
+	attr *xml.Decoder
 }
 
 func New(b []byte) *X2Go {
 	return &X2Go{
-		dec: xml.NewDecoder(bytes.NewReader(b)),
-		pre: xml.NewDecoder(bytes.NewReader(b)),
+		dec:  xml.NewDecoder(bytes.NewReader(b)),
+		ns:   xml.NewDecoder(bytes.NewReader(b)),
+		attr: xml.NewDecoder(bytes.NewReader(b)),
 	}
 }
 
@@ -57,30 +59,53 @@ func echo(id map[string]map[string]string) string {
 	return s
 }
 
-func (x *X2Go) namespace() (map[string]string, map[string][]string) {
+func (x *X2Go) namespace() map[string]string {
 	ns := map[string]string{}
-	attrs := map[string][]string{}
 
-	for token, err := x.pre.Token(); err == nil; token, err = x.pre.Token() {
+	for token, err := x.ns.Token(); err == nil; token, err = x.ns.Token() {
 		switch t := token.(type) {
 		case xml.StartElement:
 			if len(t.Attr) != 0 {
 				for _, v := range t.Attr {
 					ns[v.Value] = v.Name.Local
+				}
+			}
+		}
+	}
+
+	return ns
+}
+
+func (x *X2Go) attribute() map[string][]string {
+	attrs := map[string][]string{}
+
+	for token, err := x.attr.Token(); err == nil; token, err = x.attr.Token() {
+		switch t := token.(type) {
+		case xml.StartElement:
+			if len(t.Attr) != 0 {
+				for _, v := range t.Attr {
 					attrs[t.Name.Local] = append(attrs[t.Name.Local], v.Name.Space+":"+v.Name.Local+",attr")
 				}
 			}
 		}
 	}
 
-	return ns, attrs
+	return attrs
+}
+
+func reAttrName(attr map[string][]string, nsname, name string) {
+	if attr[name] != nil {
+		attr[nsname] = attr[name]
+		delete(attr, name)
+	}
 }
 
 func (x *X2Go) Skeleton() map[string][]string {
 	bones := map[string][]string{}
 	names := []string{}
 	mapping := map[string]string{}
-	ns, attrs := x.namespace()
+	ns := x.namespace()
+	attrs := x.attribute()
 
 	var val = func(s []string) string {
 		if len(s) > 1 {
@@ -100,9 +125,7 @@ func (x *X2Go) Skeleton() map[string][]string {
 				}
 			}
 
-			if attrs[t.Name.Local] != nil {
-				attrs[name] = attrs[t.Name.Local]
-			}
+			reAttrName(attrs, name, t.Name.Local)
 
 			names = append(names, name)
 

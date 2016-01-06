@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"godx"
 	"io/ioutil"
-	"x2go"
 )
 
 var file string
@@ -24,7 +24,7 @@ func main() {
 		return
 	}
 
-	x := x2go.New(b)
+	x := godx.New(b)
 	ioutil.WriteFile(output, []byte(x.String()), 0666)
 
 	// b, err = format.Source([]byte(x.String()))

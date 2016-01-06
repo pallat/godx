@@ -1,4 +1,4 @@
-package x2go
+package godx
 
 import (
 	"fmt"
