@@ -1,4 +1,4 @@
-The x2go use to generate go struct from xml file.
+The godx use to generate go structure from xml file.
 It is useful for generating soap request xml.
 
 usage
