@@ -49,6 +49,10 @@ func echo(id map[string]map[string]string) string {
 			} else if strings.Contains(name, ":") {
 				names = strings.Split(name, ":")
 			}
+
+			typs := strings.Split(typ, ":")
+			typ = typs[len(typs)-1]
+
 			s += "    " + strings.Title(names[len(names)-1]) + " " + typ + " `xml:" + `"` + name + `"` + "`\n"
 			fmt.Println(" ", strings.Title(names[len(names)-1]), typ, "`xml:"+`"`+name+`"`+"`")
 		}
