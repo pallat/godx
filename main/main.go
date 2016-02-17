@@ -9,10 +9,12 @@ import (
 
 var file string
 var output string
+var pack string
 
 func init() {
 	flag.StringVar(&file, "f", "example.xml", "-f=example.xml")
 	flag.StringVar(&output, "o", "example.go", "-o=example.go")
+	flag.StringVar(&pack, "p", "main", "-p=packageName")
 }
 
 func main() {
@@ -25,7 +27,7 @@ func main() {
 	}
 
 	x := godx.New(b)
-	ioutil.WriteFile(output, []byte(x.String()), 0666)
+	ioutil.WriteFile(output, []byte(x.MakePackage(pack)), 0666)
 
 	// b, err = format.Source([]byte(x.String()))
 
