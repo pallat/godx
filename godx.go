@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"go/parser"
+	"go/printer"
+	"go/token"
 	"strings"
 )
 
@@ -26,6 +29,32 @@ type node struct {
 	_type string
 }
 
+func (x *X2Go) ast() {
+	src := x.string()
+
+	fset := token.NewFileSet() // positions are relative to fset
+	f, err := parser.ParseFile(fset, "", src, 0)
+	if err != nil {
+		panic(err)
+	}
+
+	// Print the AST.
+	// ast.Print(fset, f)
+	var buf bytes.Buffer
+	printer.Fprint(&buf, fset, f)
+
+	s := buf.String()
+
+	// Print the cleaned-up body text to stdout.
+	fmt.Println(s)
+}
+
+func (x *X2Go) string() string {
+	bones := x.Skeleton()
+	id := Identify(bones)
+	return echo(id)
+}
+
 func (x *X2Go) String() string {
 	bones := x.Skeleton()
 	id := Identify(bones)
@@ -33,14 +62,14 @@ func (x *X2Go) String() string {
 }
 
 func echo(id map[string]map[string]string) string {
-	s := ""
+	s := "package xxx\n"
 	var names []string
 	for k, v := range id {
 		if k == "" {
 			continue
 		}
 
-		fmt.Println("type", strings.Title(k), "struct {")
+		// fmt.Println("type", strings.Title(k), "struct {")
 		s += "type " + strings.Title(k) + " struct {\n"
 		for name, typ := range v {
 			if strings.Contains(name, ",") {
@@ -54,10 +83,10 @@ func echo(id map[string]map[string]string) string {
 			typ = typs[len(typs)-1]
 
 			s += "    " + strings.Title(names[len(names)-1]) + " " + typ + " `xml:" + `"` + name + `"` + "`\n"
-			fmt.Println(" ", strings.Title(names[len(names)-1]), typ, "`xml:"+`"`+name+`"`+"`")
+			// fmt.Println(" ", strings.Title(names[len(names)-1]), typ, "`xml:"+`"`+name+`"`+"`")
 		}
 		s += "}\n\n"
-		fmt.Println("}")
+		// fmt.Println("}")
 	}
 
 	return s
