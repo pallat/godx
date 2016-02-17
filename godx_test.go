@@ -67,34 +67,6 @@ func TestIdentifyType(t *testing.T) {
 	}
 }
 
-func xTestPrint(t *testing.T) {
-	id := map[string]map[string]string{
-		"":                map[string]string{"soap:Envelope": "Envelope"},
-		"Envelope":        map[string]string{"soap:Header": "Header", "soap:Body": "Body", "xmlns:soap,attr": "string", "xmlns:soap1,attr": "string", "xmlns:xsd,attr": "string"},
-		"Body":            map[string]string{"soap1:executeBatch": "ExecuteBatch"},
-		"executeBatch":    map[string]string{"soap1:sessionID": "string", "soap1:commands": "Commands"},
-		"commands":        map[string]string{"xsd:audienceID": "string", "xsd:audienceLevel": "string", "xsd:debug": "string", "xsd:eventParameters": "EventParameters", "xsd:interactiveChannel": "string", "xsd:methodIdentifier": "string", "xsd:relyOnExistingSession": "string"},
-		"eventParameters": map[string]string{"xsd:name": "string", "xsd:valueAsString": "string", "xsd:valueDataType": "string", "xsd:valueAsNumeric": "string"},
-		"audienceID":      map[string]string{"xsd:name": "string", "xsd:valueAsString": "string", "xsd:valueDataType": "string"},
-	}
-
-	echo(id)
-}
-
-func TestReal(t *testing.T) {
-	b, err := ioutil.ReadFile("./main/cmp.xml")
-	if err != nil {
-		t.Error("File cmp.xml not found.")
-		return
-	}
-
-	x2go := New(b)
-
-	bones := x2go.Skeleton()
-	id := Identify(bones)
-	fmt.Println(echo(id))
-}
-
 func arrange(key string, bones map[string][]string) {
 	for i := range bones[key] {
 		fmt.Println(key + ":" + bones[key][i])

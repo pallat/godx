@@ -3,10 +3,6 @@ package godx
 import (
 	"bytes"
 	"encoding/xml"
-	"fmt"
-	"go/parser"
-	"go/printer"
-	"go/token"
 	"strings"
 )
 
@@ -29,67 +25,10 @@ type node struct {
 	_type string
 }
 
-func (x *X2Go) ast() {
-	src := x.string()
-
-	fset := token.NewFileSet() // positions are relative to fset
-	f, err := parser.ParseFile(fset, "", src, 0)
-	if err != nil {
-		panic(err)
-	}
-
-	// Print the AST.
-	// ast.Print(fset, f)
-	var buf bytes.Buffer
-	printer.Fprint(&buf, fset, f)
-
-	s := buf.String()
-
-	// Print the cleaned-up body text to stdout.
-	fmt.Println(s)
-}
-
-func (x *X2Go) string() string {
+func (x *X2Go) MakePackage(name string) string {
 	bones := x.Skeleton()
 	id := Identify(bones)
-	return echo(id)
-}
-
-func (x *X2Go) String() string {
-	bones := x.Skeleton()
-	id := Identify(bones)
-	return echo(id)
-}
-
-func echo(id map[string]map[string]string) string {
-	s := "package xxx\n"
-	var names []string
-	for k, v := range id {
-		if k == "" {
-			continue
-		}
-
-		// fmt.Println("type", strings.Title(k), "struct {")
-		s += "type " + strings.Title(k) + " struct {\n"
-		for name, typ := range v {
-			if strings.Contains(name, ",") {
-				names = strings.Split(name, ",")
-				names = strings.Split(names[0], ":")
-			} else if strings.Contains(name, ":") {
-				names = strings.Split(name, ":")
-			}
-
-			typs := strings.Split(typ, ":")
-			typ = typs[len(typs)-1]
-
-			s += "    " + strings.Title(names[len(names)-1]) + " " + typ + " `xml:" + `"` + name + `"` + "`\n"
-			// fmt.Println(" ", strings.Title(names[len(names)-1]), typ, "`xml:"+`"`+name+`"`+"`")
-		}
-		s += "}\n\n"
-		// fmt.Println("}")
-	}
-
-	return s
+	return makePack(name, id)
 }
 
 func (x *X2Go) namespace() map[string]string {
