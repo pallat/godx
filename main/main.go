@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"godx"
 	"io/ioutil"
+
+	"github.com/pallat/godx"
 )
 
 var file string
