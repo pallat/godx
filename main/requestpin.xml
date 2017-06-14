@@ -1,0 +1,17 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.coupon.tac.co.th/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ws:InqrDiscAmnt>
+         <!--Optional:-->
+         <InqrDiscAmntReqs>
+            <ReqsDttm>2015-04-20T14:45:18.498+07:00</ReqsDttm>
+            <RefnId>20170522112121.002</RefnId>
+            <CmpgId>5001</CmpgId>
+            <CustNumb>606352957</CustNumb>
+            <Cmnd>1234</Cmnd>
+            <Field01>66850620318</Field01>
+            <Field02>123456</Field02>            
+        </InqrDiscAmntReqs>
+      </ws:InqrDiscAmnt>
+   </soapenv:Body>
+</soapenv:Envelope>
