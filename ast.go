@@ -66,13 +66,13 @@ func makePack(name string, id map[string]map[string]string) string {
 
 func makeGenDecl(name string, members map[string]string) *ast.GenDecl {
 	fields := []*ast.Field{}
-	// var names []string
 
 	for n, typ := range members {
 		typs := strings.Split(typ, ":")
 		typ = typs[len(typs)-1]
 
-		fields = append(fields, makeField(strings.Title(fieldName(n)), typ, "`xml:\""+name+"\"`"))
+		tag := tagName(n)
+		fields = append(fields, makeField(strings.Title(fieldName(tag)), typ, "`xml:\""+tag+"\"`"))
 	}
 
 	return &ast.GenDecl{
@@ -84,6 +84,13 @@ func makeGenDecl(name string, members map[string]string) *ast.GenDecl {
 }
 
 func fieldName(n string) string {
+	if strings.Contains(n, ",") {
+		return strings.Split(n, ",")[0]
+	}
+	return n
+}
+
+func tagName(n string) string {
 	name := n
 	if strings.Contains(n, ",") {
 		names := strings.Split(n, ",")
